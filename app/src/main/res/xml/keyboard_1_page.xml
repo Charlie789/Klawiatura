@@ -16,12 +16,12 @@
     <Row>
         <Key android:codes="-5"
             android:keyLabel="DELETE"
-            android:keyWidth="40%p"
+            android:keyWidth="50%p"
             android:keyEdgeFlags="left"
             android:isRepeatable="true"/>
         <Key android:codes="10"
             android:keyLabel="CFG"
-            android:keyWidth="60%p"
+            android:keyWidth="50%p"
             android:keyEdgeFlags="right"/>
     </Row>
 

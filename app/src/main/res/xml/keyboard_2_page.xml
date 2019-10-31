@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:keyWidth="20%p"
+    android:keyWidth="33.3%p"
     android:keyHeight="60dp"
     android:horizontalGap="5dp"
     android:verticalGap="5dp">
@@ -8,20 +8,18 @@
     <Row>
         <Key android:codes="5" android:keyLabel="NFC_ST" android:keyEdgeFlags="left"/>
         <Key android:codes="6" android:keyLabel="NFC_ON"/>
-        <Key android:codes="7" android:keyLabel="WIFI"/>
-        <Key android:codes="57" android:keyLabel="9"/>
-        <Key android:codes="48" android:keyLabel="0" android:keyEdgeFlags="right"/>
+        <Key android:codes="7" android:keyLabel="WIFI" android:keyEdgeFlags="right"/>
     </Row>
 
     <Row>
         <Key android:codes="-5"
             android:keyLabel="DELETE"
-            android:keyWidth="40%p"
+            android:keyWidth="50%p"
             android:keyEdgeFlags="left"
             android:isRepeatable="true"/>
         <Key android:codes="10"
             android:keyLabel="CFG"
-            android:keyWidth="40%p"
+            android:keyWidth="50%p"
             android:keyEdgeFlags="right"/>
     </Row>
 
