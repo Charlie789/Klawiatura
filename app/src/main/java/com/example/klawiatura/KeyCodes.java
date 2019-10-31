@@ -6,5 +6,6 @@ class KeyCodes {
     static final int CAMERA = 2;
     static final int SAVE = 3;
     static final int TOAST = 4;
+    static final int CFG = 10;
 
 }
