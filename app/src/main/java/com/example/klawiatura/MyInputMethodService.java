@@ -35,17 +35,12 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
 
         if (inputConnection != null) {
             switch (primaryCode) {
-                case Keyboard.KEYCODE_DELETE:
-                    CharSequence selectedText = inputConnection.getSelectedText(0);
-
-                    if (TextUtils.isEmpty(selectedText)) {
-                        inputConnection.deleteSurroundingText(1, 0);
-                    } else {
-                        inputConnection.commitText("", 1);
-                    }
+                case KeyCodes.TEXT:
+                    inputConnection.setComposingText("hello", 1);
+                    inputConnection.finishComposingText();
 
                     break;
-                case KeyCodes.CODE_CAMERA:
+                case KeyCodes.CAMERA:
                     Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
