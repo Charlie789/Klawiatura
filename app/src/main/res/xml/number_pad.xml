@@ -7,7 +7,7 @@
 
     <Row>
         <Key android:codes="0" android:keyLabel="TXT" android:keyEdgeFlags="left"/>
-        <Key android:codes="50" android:keyLabel="2"/>
+        <Key android:codes="1" android:keyLabel="DING"/>
         <Key android:codes="2" android:keyLabel="CAM"/>
         <Key android:codes="52" android:keyLabel="4"/>
         <Key android:codes="53" android:keyLabel="5" android:keyEdgeFlags="right"/>

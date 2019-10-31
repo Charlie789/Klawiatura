@@ -3,6 +3,7 @@ package com.example.klawiatura;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.media.MediaPlayer;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
@@ -44,6 +45,11 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                     Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+
+                    break;
+                case KeyCodes.DING:
+                    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);
+                    mp.start();
 
                     break;
                 default:
