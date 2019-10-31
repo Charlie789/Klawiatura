@@ -1,18 +1,25 @@
 package com.example.klawiatura;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.MediaPlayer;
+import android.net.wifi.WifiManager;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.content.Intent;
 import android.widget.Toast;
+import android.app.AlertDialog;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -116,6 +123,57 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
 
                 case KeyCodes.TOAST:
                     Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show();
+
+                    break;
+
+                case KeyCodes.NFC_STATUS:
+                    NfcManager manager = (NfcManager) getSystemService(Context.NFC_SERVICE);
+                    NfcAdapter adapter = manager.getDefaultAdapter();
+                    if (adapter == null){
+                        Toast.makeText(this, "Brak modułu NFC", Toast.LENGTH_LONG).show();
+                    } else if (adapter.isEnabled()) {
+                        Toast.makeText(this, "NFC jest włączone", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "NFC jest wyłączone", Toast.LENGTH_LONG).show();
+                    }
+
+                    break;
+
+                case KeyCodes.NFC_ON:
+                    NfcManager m_manager = (NfcManager) getSystemService(Context.NFC_SERVICE);
+                    NfcAdapter m_adapter = m_manager.getDefaultAdapter();
+
+                    if (m_adapter == null){
+                        Toast.makeText(this, "Brak modułu NFC", Toast.LENGTH_LONG).show();
+                    } else if (m_adapter.isEnabled()) {
+                        Toast.makeText(this, "NFC jest włączone", Toast.LENGTH_LONG).show();
+                    } else {
+                        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+                        alertbox.setTitle("Info");
+                        alertbox.setMessage("Potrzebne jest ręczne uruchomienie modułu NFC, czy chcesz zostać przekierowany do ustawień?");
+                        alertbox.setPositiveButton("Turn On", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
+                                startActivity(intent);
+                            }
+                        });
+                        alertbox.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        alertbox.show();
+
+                    }
+
+                    break;
+
+                case KeyCodes.WIFI:
+                    WifiManager wifiManager = (WifiManager)this.getSystemService(Context.WIFI_SERVICE);
+                    wifiManager.setWifiEnabled(!wifiManager.isWifiEnabled());
 
                     break;
 

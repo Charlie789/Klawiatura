@@ -6,6 +6,9 @@ class KeyCodes {
     static final int CAMERA = 2;
     static final int SAVE = 3;
     static final int TOAST = 4;
+    static final int NFC_STATUS = 5;
+    static final int NFC_ON = 6;
+    static final int WIFI = 7;
     static final int CFG = 10;
 
 }
