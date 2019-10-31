@@ -1,13 +1,22 @@
 package com.example.klawiatura;
 
+import android.content.Context;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.MediaPlayer;
+import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
 import android.content.Intent;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class MyInputMethodService extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
@@ -52,6 +61,30 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                     mp.start();
 
                     break;
+
+                case KeyCodes.SAVE:
+                    try {
+                        File root = new File(Environment.getExternalStorageDirectory(), "Klawiatura");
+                        if (!root.exists()) {
+                            root.mkdirs();
+                        }
+                        File gpxfile = new File(root, "klawiatura.txt");
+                        FileWriter writer = new FileWriter(gpxfile);
+                        writer.append("wiadomość z aplikacji");
+                        writer.flush();
+                        writer.close();
+                        Toast.makeText(this, "Zapisano", Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    break;
+
+                case KeyCodes.TOAST:
+                    Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show();
+
+                    break;
+
                 default:
                     char code = (char) primaryCode;
                     inputConnection.commitText(String.valueOf(code), 1);
