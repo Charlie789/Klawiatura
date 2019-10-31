@@ -6,6 +6,7 @@ import android.inputmethodservice.KeyboardView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
+import android.content.Intent;
 
 public class MyInputMethodService extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
@@ -33,8 +34,8 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
         InputConnection inputConnection = getCurrentInputConnection();
 
         if (inputConnection != null) {
-            switch(primaryCode) {
-                case Keyboard.KEYCODE_DELETE :
+            switch (primaryCode) {
+                case Keyboard.KEYCODE_DELETE:
                     CharSequence selectedText = inputConnection.getSelectedText(0);
 
                     if (TextUtils.isEmpty(selectedText)) {
@@ -44,7 +45,13 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                     }
 
                     break;
-                default :
+                case KeyCodes.CODE_CAMERA:
+                    Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+
+                    break;
+                default:
                     char code = (char) primaryCode;
                     inputConnection.commitText(String.valueOf(code), 1);
             }
