@@ -146,27 +146,15 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                     if (m_adapter == null){
                         Toast.makeText(this, "Brak modułu NFC", Toast.LENGTH_LONG).show();
                     } else if (m_adapter.isEnabled()) {
-                        Toast.makeText(this, "NFC jest włączone", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "NFC jest włączone. Proszę o wyłączenie NFC, a następnie powrót do aplikacji", Toast.LENGTH_LONG).show();
+                        Intent intentNFC = new Intent(Settings.ACTION_NFC_SETTINGS);
+                        intentNFC.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intentNFC);
                     } else {
-                        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-                        alertbox.setTitle("Info");
-                        alertbox.setMessage("Potrzebne jest ręczne uruchomienie modułu NFC, czy chcesz zostać przekierowany do ustawień?");
-                        alertbox.setPositiveButton("Turn On", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
-                                startActivity(intent);
-                            }
-                        });
-                        alertbox.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-                        alertbox.show();
-
+                        Toast.makeText(this, "NFC jest wyłączone. Proszę o włączenie NFC, a następnie powrót do aplikacji", Toast.LENGTH_LONG).show();
+                        Intent intentNFC = new Intent(Settings.ACTION_NFC_SETTINGS);
+                        intentNFC.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intentNFC);
                     }
 
                     break;
