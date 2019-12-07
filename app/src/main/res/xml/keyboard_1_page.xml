@@ -14,10 +14,13 @@
     </Row>
 
     <Row>
+        <Key android:codes="11"
+            android:keyLabel="KEYB"
+            android:keyWidth="25%p"
+            android:keyEdgeFlags="left"/>
         <Key android:codes="-5"
             android:keyLabel="DELETE"
-            android:keyWidth="50%p"
-            android:keyEdgeFlags="left"
+            android:keyWidth="25%p"
             android:isRepeatable="true"/>
         <Key android:codes="10"
             android:keyLabel="CFG"

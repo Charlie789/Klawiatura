@@ -10,7 +10,7 @@ import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
-import android.os.Build;
+import android.view.inputmethod.InputMethodManager;
 import android.os.Environment;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -176,6 +176,12 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                     }
                     editor.apply();
                     setInputView(onCreateInputView());
+
+                    break;
+
+                case KeyCodes.KEYB:
+                    InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
+                    imeManager.showInputMethodPicker();
 
                     break;
 
