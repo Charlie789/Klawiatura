@@ -7,13 +7,14 @@
 
     <Row>
         <Key android:codes="5" android:keyLabel="NFC_ST" android:keyEdgeFlags="left"/>
-        <Key android:codes="6" android:keyLabel="NFC_ON"/>
-        <Key android:codes="7" android:keyLabel="WIFI" android:keyEdgeFlags="right"/>
+        <Key android:codes="6" android:keyIcon="@drawable/nfc" android:iconPreview="@drawable/nfc_b"/>
+        <Key android:codes="7" android:keyIcon="@drawable/wifi" android:iconPreview="@drawable/wifi_b" android:keyEdgeFlags="right"/>
     </Row>
 
     <Row>
         <Key android:codes="11"
-            android:keyLabel="KEYB"
+            android:keyIcon="@drawable/keyboard"
+            android:iconPreview="@drawable/keyboard_b"
             android:keyWidth="25%p"
             android:keyEdgeFlags="left"/>
         <Key android:codes="-5"

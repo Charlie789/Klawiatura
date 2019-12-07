@@ -1,7 +1,6 @@
 package com.example.klawiatura;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
@@ -21,7 +20,6 @@ import android.content.Intent;
 import android.widget.Toast;
 import android.media.AudioManager;
 import android.os.Vibrator;
-import android.app.AlertDialog;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -52,12 +50,6 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
         }
         this.keyboardView.setOnKeyboardActionListener(this);
         return keyboardView;
-//        keyboardView = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard_view, null);
-//        keyboard_1_page = new Keyboard(this, R.xml.keyboard_1_page);
-//        keyboard_2_page = new Keyboard(this, R.xml.keyboard_2_page);
-//        keyboardView.setKeyboard(keyboard_1_page);
-//        keyboardView.setOnKeyboardActionListener(this);
-//        return keyboardView;
     }
 
     @Override
