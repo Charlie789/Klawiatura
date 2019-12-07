@@ -19,6 +19,8 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.content.Intent;
 import android.widget.Toast;
+import android.media.AudioManager;
+import android.os.Vibrator;
 import android.app.AlertDialog;
 
 import java.io.File;
@@ -30,6 +32,7 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
     KeyboardView keyboardView;
     Keyboard keyboard_1_page;
     Keyboard keyboard_2_page;
+    Vibrator vibe;
     @Override
     public View onCreateInputView() {
         SharedPreferences pre = getSharedPreferences("keyboard", MODE_PRIVATE);
@@ -37,6 +40,8 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
         this.keyboardView = (KeyboardView) this.getLayoutInflater().inflate(R.layout.keyboard_view, null);
         this.keyboard_1_page = new Keyboard(this, R.xml.keyboard_1_page);
         this.keyboard_2_page = new Keyboard(this, R.xml.keyboard_2_page);
+
+        this.vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         if(theme == 1)
         {
@@ -98,8 +103,8 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
 
                     break;
                 case KeyCodes.DING:
-                    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);
-                    mp.start();
+
+
 
                     break;
 
@@ -188,6 +193,24 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                 default:
                     char code = (char) primaryCode;
                     inputConnection.commitText(String.valueOf(code), 1);
+            }
+            AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            switch (audio.getRingerMode())
+            {
+                case AudioManager.RINGER_MODE_NORMAL:
+                    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);
+                    mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        public void onCompletion(MediaPlayer mp) {
+                            mp.release();
+                        }
+                    });
+                    mp.start();
+                    break;
+                case AudioManager.RINGER_MODE_SILENT:
+                    break;
+                case AudioManager.RINGER_MODE_VIBRATE:
+                    vibe.vibrate(50);
+                    break;
             }
         }
     }
