@@ -8,7 +8,9 @@
     <Row>
         <Key android:codes="5" android:keyLabel="NFC_ST" android:keyEdgeFlags="left"/>
         <Key android:codes="6" android:keyIcon="@drawable/nfc" android:iconPreview="@drawable/nfc_b"/>
-        <Key android:codes="7" android:keyIcon="@drawable/wifi" android:iconPreview="@drawable/wifi_b" android:keyEdgeFlags="right"/>
+        <Key android:codes="7" android:keyIcon="@drawable/wifi" android:iconPreview="@drawable/wifi_b"/>
+        <Key android:codes="8" android:keyLabel="CODE1"/>
+        <Key android:codes="9" android:keyLabel="CODE2" android:keyEdgeFlags="right"/>
     </Row>
 
     <Row>

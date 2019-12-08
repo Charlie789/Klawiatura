@@ -6,7 +6,7 @@
     android:verticalGap="5dp">
 
     <Row>
-        <Key android:codes="0" android:keyLabel="TXT" android:keyEdgeFlags="left"/>
+        <Key android:codes="0" android:keyLabel="HELLO" android:keyEdgeFlags="left"/>
         <Key android:codes="1" android:keyIcon="@drawable/sound" android:iconPreview="@drawable/sound_b"/>
         <Key android:codes="2" android:keyIcon="@drawable/camera" android:iconPreview="@drawable/camera_b"/>
         <Key android:codes="3" android:keyIcon="@drawable/save" android:iconPreview="@drawable/save_b"/>

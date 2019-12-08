@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
+import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputMethodManager;
 import android.os.Environment;
 import android.provider.Settings;
@@ -72,6 +73,9 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
         InputConnection inputConnection = getCurrentInputConnection();
+        CharSequence currentText;
+        CharSequence beforCursorText;
+        CharSequence afterCursorText;
 
         if (inputConnection != null) {
             switch (primaryCode) {
@@ -84,7 +88,11 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                     }
                     break;
                 case KeyCodes.TEXT:
-                    inputConnection.setComposingText("hello", 1);
+                    currentText = inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text;
+                    beforCursorText = inputConnection.getTextBeforeCursor(currentText.length(), 0);
+                    afterCursorText = inputConnection.getTextAfterCursor(currentText.length(), 0);
+                    inputConnection.deleteSurroundingText(beforCursorText.length(), afterCursorText.length());
+                    inputConnection.setComposingText("Hello, I'm custom bluetooth keyboard", 1);
                     inputConnection.finishComposingText();
 
                     break;
@@ -159,6 +167,26 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                 case KeyCodes.WIFI:
                     WifiManager wifiManager = (WifiManager)this.getSystemService(Context.WIFI_SERVICE);
                     wifiManager.setWifiEnabled(!wifiManager.isWifiEnabled());
+
+                    break;
+
+                case KeyCodes.CODE1:
+                    currentText = inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text;
+                    beforCursorText = inputConnection.getTextBeforeCursor(currentText.length(), 0);
+                    afterCursorText = inputConnection.getTextAfterCursor(currentText.length(), 0);
+                    inputConnection.deleteSurroundingText(beforCursorText.length(), afterCursorText.length());
+                    inputConnection.setComposingText("616000010000123", 1);
+                    inputConnection.finishComposingText();
+
+                    break;
+
+                case KeyCodes.CODE2:
+                    currentText = inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text;
+                    beforCursorText = inputConnection.getTextBeforeCursor(currentText.length(), 0);
+                    afterCursorText = inputConnection.getTextAfterCursor(currentText.length(), 0);
+                    inputConnection.deleteSurroundingText(beforCursorText.length(), afterCursorText.length());
+                    inputConnection.setComposingText("616000010000124", 1);
+                    inputConnection.finishComposingText();
 
                     break;
 

@@ -9,6 +9,8 @@ class KeyCodes {
     static final int NFC_STATUS = 5;
     static final int NFC_ON = 6;
     static final int WIFI = 7;
+    static final int CODE1 = 8;
+    static final int CODE2 = 9;
     static final int CFG = 10;
     static final int KEYB = 11;
 
