@@ -17,15 +17,18 @@
         <Key android:codes="11"
             android:keyIcon="@drawable/keyboard"
             android:iconPreview="@drawable/keyboard_b"
-            android:keyWidth="25%p"
             android:keyEdgeFlags="left"/>
         <Key android:codes="-5"
             android:keyLabel="DELETE"
-            android:keyWidth="25%p"
+            android:isRepeatable="true"/>
+        <Key android:codes="12"
+            android:keyLabel="LISTEN"
+            android:isRepeatable="true"/>
+        <Key android:codes="13"
+            android:keyLabel="CONNECT"
             android:isRepeatable="true"/>
         <Key android:codes="10"
             android:keyLabel="CFG"
-            android:keyWidth="50%p"
             android:keyEdgeFlags="right"/>
     </Row>
 

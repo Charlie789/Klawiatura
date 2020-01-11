@@ -13,5 +13,7 @@ class KeyCodes {
     static final int CODE2 = 9;
     static final int CFG = 10;
     static final int KEYB = 11;
+    static final int LISTEN = 12;
+    static final int CONNECT = 13;
 
 }
