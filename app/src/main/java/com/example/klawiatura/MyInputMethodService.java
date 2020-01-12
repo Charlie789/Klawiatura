@@ -269,7 +269,7 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                     } else {
                         Toast.makeText(getApplicationContext(), "No available devices", Toast.LENGTH_LONG).show();
                     }
-                    
+
                     break;
 
                 default:
@@ -323,12 +323,14 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
     }
 
     Handler handler = new Handler(new Handler.Callback() {
-        InputConnection inputConnection = getCurrentInputConnection();
-        CharSequence currentText;
-        CharSequence beforCursorText;
-        CharSequence afterCursorText;
+        //InputConnection inputConnection = getCurrentInputConnection();
+
         @Override
         public boolean handleMessage(@NonNull Message msg) {
+            InputConnection inputConnection = getCurrentInputConnection();
+            CharSequence currentText;
+            CharSequence beforCursorText;
+            CharSequence afterCursorText;
             switch (msg.what){
                 case STATE_LISTENING:
                     Toast.makeText(getApplicationContext(), "Listening", Toast.LENGTH_LONG).show();
