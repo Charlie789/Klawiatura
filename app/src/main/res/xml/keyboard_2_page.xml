@@ -5,10 +5,17 @@
     android:horizontalGap="5dp"
     android:verticalGap="5dp">
 
+<!--    <Row>-->
+<!--        <Key android:codes="5" android:keyLabel="NFC_ST" android:keyEdgeFlags="left"/>-->
+<!--        <Key android:codes="6" android:keyIcon="@drawable/nfc" android:iconPreview="@drawable/nfc_b"/>-->
+<!--        <Key android:codes="7" android:keyIcon="@drawable/wifi" android:iconPreview="@drawable/wifi_b"/>-->
+<!--        <Key android:codes="8" android:keyLabel="CODE1"/>-->
+<!--        <Key android:codes="9" android:keyLabel="CODE2" android:keyEdgeFlags="right"/>-->
+<!--    </Row>-->
     <Row>
-        <Key android:codes="5" android:keyLabel="NFC_ST" android:keyEdgeFlags="left"/>
-        <Key android:codes="6" android:keyIcon="@drawable/nfc" android:iconPreview="@drawable/nfc_b"/>
-        <Key android:codes="7" android:keyIcon="@drawable/wifi" android:iconPreview="@drawable/wifi_b"/>
+        <Key android:codes="14" android:keyLabel="SOUND" android:keyEdgeFlags="left"/>
+        <Key android:codes="15" android:keyLabel="VIB"/>
+        <Key android:codes="16" android:keyLabel="ACCEPT"/>
         <Key android:codes="8" android:keyLabel="CODE1"/>
         <Key android:codes="9" android:keyLabel="CODE2" android:keyEdgeFlags="right"/>
     </Row>

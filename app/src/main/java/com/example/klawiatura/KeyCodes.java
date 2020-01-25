@@ -15,5 +15,8 @@ class KeyCodes {
     static final int KEYB = 11;
     static final int LISTEN = 12;
     static final int CONNECT = 13;
+    static final int SOUND = 14;
+    static final int VIBRATE = 15;
+    static final int AUTOINSERT = 16;
 
 }

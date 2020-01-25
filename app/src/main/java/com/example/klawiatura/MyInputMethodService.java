@@ -24,13 +24,14 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.content.Intent;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 import android.media.AudioManager;
 import android.os.Vibrator;
 
 import androidx.annotation.NonNull;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -59,6 +60,14 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
     static final int STATE_MESSAGE_RECEIVED = 5;
 
     int REQUEST_ENABLE_BLUETOOTH = 1;
+    boolean send_sound = false;
+    boolean send_vibrate = false;
+    boolean send_accept = false;
+
+    boolean read_sound = false;
+    boolean read_vibrate = false;
+    boolean read_accept = false;
+    String read_text = "";
 
     private static final String APP_NAME = "BTCommunicator";
     private static final UUID MY_UUID = UUID.fromString("8ac8c6f0-cce4-4cf8-9b44-ad722bb0dc5c");
@@ -213,7 +222,7 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                     inputConnection.deleteSurroundingText(beforCursorText.length(), afterCursorText.length());
                     inputConnection.setComposingText("616000010000123", 1);
                     inputConnection.finishComposingText();
-                    String string = String.valueOf(inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text);
+                    String string = json_writter(String.valueOf(inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text));
                     sendReceive.write(string.getBytes());
 
                     break;
@@ -225,7 +234,7 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                     inputConnection.deleteSurroundingText(beforCursorText.length(), afterCursorText.length());
                     inputConnection.setComposingText("616000010000124", 1);
                     inputConnection.finishComposingText();
-                    String string2 = String.valueOf(inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text);
+                    String string2 = json_writter(String.valueOf(inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text));
                     sendReceive.write(string2.getBytes());
 
                     break;
@@ -270,6 +279,21 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                         Toast.makeText(getApplicationContext(), "No available devices", Toast.LENGTH_LONG).show();
                     }
 
+                    break;
+
+                case KeyCodes.SOUND:
+                    send_sound = !send_sound;
+                    Toast.makeText(getApplicationContext(), "Sound: " + send_sound, Toast.LENGTH_SHORT).show();
+                    break;
+
+                case KeyCodes.VIBRATE:
+                    send_vibrate = !send_vibrate;
+                    Toast.makeText(getApplicationContext(), "Vibrate: " + send_vibrate, Toast.LENGTH_SHORT).show();
+                    break;
+
+                case KeyCodes.AUTOINSERT:
+                    send_accept = !send_accept;
+                    Toast.makeText(getApplicationContext(), "Accept: " + send_accept, Toast.LENGTH_SHORT).show();
                     break;
 
                 default:
@@ -322,6 +346,30 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
 
     }
 
+    public String json_writter(String msg) {
+        String in;
+        in = "{\n" +
+                "   \"text\":\"" + msg + "\",\n" +
+                "   \"vibrate\":" + send_vibrate + ",\n" +
+                "   \"sound\":" + send_sound + ",\n" +
+                "   \"accept\":" + send_accept + "\n" +
+                "}";
+
+        return in;
+    }
+
+    public void json_reader(String msg) {
+        try {
+            JSONObject json_msg = new JSONObject(msg);
+            read_sound = json_msg.getBoolean("sound");
+            read_vibrate = json_msg.getBoolean("vibrate");
+            read_accept = json_msg.getBoolean("accept");
+            read_text = json_msg.getString("text");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     Handler handler = new Handler(new Handler.Callback() {
         //InputConnection inputConnection = getCurrentInputConnection();
 
@@ -333,26 +381,45 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
             CharSequence afterCursorText;
             switch (msg.what){
                 case STATE_LISTENING:
-                    Toast.makeText(getApplicationContext(), "Listening", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Listening", Toast.LENGTH_SHORT).show();
                     break;
                 case STATE_CONNECTING:
-                    Toast.makeText(getApplicationContext(), "Connecting", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Connecting", Toast.LENGTH_SHORT).show();
                     break;
                 case STATE_CONNECTED:
-                    Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
                     break;
                 case STATE_CONNECTION_FAILED:
-                    Toast.makeText(getApplicationContext(), "Connection Failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Connection Failed", Toast.LENGTH_SHORT).show();
                     break;
                 case STATE_MESSAGE_RECEIVED:
                     byte[] readBuff = (byte[]) msg.obj;
                     String tempMsg = new String(readBuff, 0, msg.arg1);
-                    currentText = inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text;
-                    beforCursorText = inputConnection.getTextBeforeCursor(currentText.length(), 0);
-                    afterCursorText = inputConnection.getTextAfterCursor(currentText.length(), 0);
-                    inputConnection.deleteSurroundingText(beforCursorText.length(), afterCursorText.length());
-                    inputConnection.setComposingText(tempMsg, 1);
-                    inputConnection.finishComposingText();
+                    json_reader(tempMsg);
+                    if(read_accept) {
+                        currentText = inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text;
+                        beforCursorText = inputConnection.getTextBeforeCursor(currentText.length(), 0);
+                        afterCursorText = inputConnection.getTextAfterCursor(currentText.length(), 0);
+                        inputConnection.deleteSurroundingText(beforCursorText.length(), afterCursorText.length());
+                        inputConnection.setComposingText(read_text, 1);
+                        inputConnection.finishComposingText();
+                    } else {
+                        inputConnection.setComposingText(read_text, 1);
+                        inputConnection.finishComposingText();
+                    }
+                    if(read_sound) {
+                        final MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.ding);
+                        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            public void onCompletion(MediaPlayer mp) {
+                                mp.release();
+                            }
+                        });
+                        mp.start();
+                    }
+                    if(read_vibrate) {
+                        vibe.vibrate(50);
+                    }
+
                     break;
             }
             return true;
