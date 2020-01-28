@@ -15,6 +15,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputMethodManager;
 import android.os.Environment;
@@ -396,18 +397,29 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                     byte[] readBuff = (byte[]) msg.obj;
                     String tempMsg = new String(readBuff, 0, msg.arg1);
                     json_reader(tempMsg);
-                    if(read_accept) {
-                        currentText = inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text;
-                        beforCursorText = inputConnection.getTextBeforeCursor(currentText.length(), 0);
-                        afterCursorText = inputConnection.getTextAfterCursor(currentText.length(), 0);
-                        inputConnection.deleteSurroundingText(beforCursorText.length(), afterCursorText.length());
-                        inputConnection.setComposingText(read_text, 1);
-                        inputConnection.finishComposingText();
-                    } else {
-                        inputConnection.setComposingText(read_text, 1);
-                        inputConnection.finishComposingText();
+
+                    currentText = inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text;
+                    beforCursorText = inputConnection.getTextBeforeCursor(currentText.length(), 0);
+                    afterCursorText = inputConnection.getTextAfterCursor(currentText.length(), 0);
+                    inputConnection.deleteSurroundingText(beforCursorText.length(), afterCursorText.length());
+                    inputConnection.setComposingText(read_text, 1);
+                    inputConnection.finishComposingText();
+                    if(read_accept || send_accept) {
+
+                        final int options = getCurrentInputEditorInfo().imeOptions;
+                        final int actionId = options & EditorInfo.IME_MASK_ACTION;
+
+                        switch (actionId) {
+                            case EditorInfo.IME_ACTION_SEARCH:
+                            case EditorInfo.IME_ACTION_GO:
+                            case EditorInfo.IME_ACTION_SEND:
+                                sendDefaultEditorAction(true);
+                                break;
+                            default:
+                                inputConnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+                        }
                     }
-                    if(read_sound) {
+                    if(read_sound || send_sound) {
                         final MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.ding);
                         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                             public void onCompletion(MediaPlayer mp) {
@@ -416,7 +428,7 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                         });
                         mp.start();
                     }
-                    if(read_vibrate) {
+                    if(read_vibrate || send_vibrate) {
                         vibe.vibrate(50);
                     }
 
